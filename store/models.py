@@ -41,8 +41,10 @@ class Order(models.Model):
         return self.product
     
 class Review(models.Model):
-    STARS = models.IntergerField(default=0)
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    STARS = models.IntegerField(default=0)
+    text = models.TextField(max_length=500, default="", blank=True)
    
     def __str__(self):
-        return  self.STARS
+        return  f'{self.STARS} {self.text}'
 
