@@ -40,4 +40,9 @@ class Order(models.Model):
     def __str__(self):
         return self.product
     
+class Review(models.Model):
+    STARS = models.IntergerField(default=0)
+   
+    def __str__(self):
+        return  self.STARS
 
