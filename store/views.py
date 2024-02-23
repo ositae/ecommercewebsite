@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import Product
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
@@ -14,6 +14,9 @@ def login_user(request):
     return render(request, 'login.html', {})
 
 def logout_user(request):
-    pass
+    logout(request)
+    messages.info(request, "Logged out successfully!")
+    return redirect('home')
+
 
 
