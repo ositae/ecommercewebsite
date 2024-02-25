@@ -5,7 +5,7 @@ from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django import forms
-from .forms import SignUpForm
+from .forms import SignUpForm, UpdateUserForm
 
 def home(request):
     products = Product.objects.all()
@@ -60,6 +60,30 @@ def product(request,pk):
     product = Product.objects.get(id=pk)
     return render(request, 'product.html', {'products': product})
 
+def category(request,string):
+    string = string.replace('-', ' ')
+    try:
+        cat = Category.objects.get(name=string)
+        products = Product.objects.filter(category=cat)
+        return render(request,'category.html', {'category': cat, 'products' : products })
 
+    except:
+        messages.success(request, ("Not Available!"))
+        return redirect('home')
+
+def update_user(request):
+    if request.method == 'GET':
+        if request.user.is_authenticated: 
+            current_user = User.objects.get(id=request.user.id)
+            user_form = UpdateUserForm(request.POST, instance=current_user)
+            if user_form.is_valid():
+                user_form.save()
+                login(request, current_user)
+                messages.success(request, 'Profile Updated Successfully')
+                return redirect('home')
+            return render (request, 'update_user.html', {'user_form': user_form})
+        else:
+            messages.success(request, 'You must be logged in!')
+            return redirect('home')
 
 
