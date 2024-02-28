@@ -15,7 +15,7 @@ class UpdateUserForm(UserChangeForm):
 
 	class Meta:
 		model = User
-		fields = ('username', 'first_name', 'last_name', 'email',)
+		fields = ('username', 'first_name', 'last_name', 'email', 'address', 'city', 'state', 'country', 'zipcode')
 
 	def __init__(self, *args, **kwargs):
 		super(UpdateUserForm, self).__init__(*args, **kwargs)
@@ -29,13 +29,6 @@ class SignUpForm(UserCreationForm):
 	email = forms.EmailField(label="", widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Email Address'}))
 	first_name = forms.CharField(label="", max_length=100, widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'First Name'}))
 	last_name = forms.CharField(label="", max_length=100, widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Last Name'}))
-	address = forms.CharField(label="", max_length=100, widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Address'}))
-	city = forms.CharField(label="", max_length=50, widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'City'}))
-	state = forms.CharField(label="", max_length=15, widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'State'}))
-	country = forms.CharField(label="", max_length=20, widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Country'}))
-	zipcode = forms.CharField(label="", max_length=15, widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Zipcode'}))
-
-	
 
 
 	class Meta:
