@@ -13,6 +13,12 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 from pathlib import Path
 import os
 import dj_database_url
+import psycopg2
+from django.forms.renderers import TemplatesSetting
+
+class CustomFormRenderer(TemplatesSetting):
+    form_template_name = "form_snippet_html"
+
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -29,6 +35,19 @@ SECRET_KEY = 'django-insecure-x*35d9n9$9dtke*ip$6u_=b2g5g9kw*ym@n=ql_kybzg7wk!it
 DEBUG = True
 
 ALLOWED_HOSTS = []
+
+# email logic
+
+HOST_EMAIL = os.getenv('SMTP_EMAIL')
+HOST_PASSWORD = os.getenv('SMTP_PASSWORD')
+
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = HOST_EMAIL
+EMAIL_HOST_PASSWORD = HOST_PASSWORD
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
 
 
 # Application definition

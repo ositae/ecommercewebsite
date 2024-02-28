@@ -9,6 +9,12 @@ from django import forms
 from .forms import SignUpForm, UpdateUserForm
 from django.db.models.query import QuerySet
 from django.views import generic
+from django.conf import settings
+from django.core.mail import send_mail
+from .forms import ContactForm
+import os
+
+recipientAddress = os.getenv('SMTP_EMAIL')
 
 def home(request):
     products = Product.objects.all()
@@ -64,7 +70,7 @@ def register_user(request):
 
 def product(request,pk):
     product = Product.objects.get(id=pk)
-    print('message', product)
+    # print('message', product)
     return render(request, 'product.html', {'product': product})
 
 # class DetailView(generic.DetailView):
@@ -105,4 +111,14 @@ def update_user(request):
             messages.success(request, 'You must be logged in!')
             return redirect('home')
 
-
+def send_message(request):
+    if request.method == 'POST':
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            subject = f"{form.cleaned_data['name']} sent you a message!"
+            message = f"Name: {form.cleaned_data['name']}\n\nSubject: {form.cleaned_data['subject']}\n\nSender:{form.cleaned_data['sender']}\n\nMessage:\n{form.cleaned_data['message']}"
+            sender = form.cleaned_data['sender']
+            send_mail(subject, message, sender, [recipientAddress], fail_silently=False)
+    else:
+        form = ContactForm()
+    return render(request, "contact.html", {"form": form})

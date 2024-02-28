@@ -11,4 +11,5 @@ urlpatterns = [
     path('product/<int:pk>/', views.product, name='product'),
     # path('product/<int:pk>/', views.DetailView.as_view(), name='detail'),
     path('category/<str:string>', views.category, name='category'),
+    path("contact/", views.send_message, name="contact"),
 ]
